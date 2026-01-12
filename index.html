@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Teko:wght@400;600&family=Space+Mono&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -25,7 +25,7 @@
             },
         }
     </script>
-    <style type="text/tailwindcss">
+    <style>
         body {
             background: radial-gradient(circle at center, #221010 0%, #000000 100%);
             overflow: hidden;
@@ -53,12 +53,294 @@
         }
         .flicker { animation: flicker 0.15s infinite; }
         @keyframes flicker { 0% { opacity: 0.97; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
+        
+        .light-flicker {
+            animation: lightFlicker 3s infinite;
+        }
+        @keyframes lightFlicker {
+            0%, 100% { opacity: 1; }
+            10% { opacity: 0.3; }
+            12% { opacity: 1; }
+            25% { opacity: 0.5; }
+            27% { opacity: 1; }
+            45% { opacity: 0.2; }
+            47% { opacity: 1; }
+            60% { opacity: 0.6; }
+            62% { opacity: 1; }
+            80% { opacity: 0.4; }
+            82% { opacity: 1; }
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        /* VHS Distortion Effects */
+        .vhs-distortion {
+            position: relative;
+        }
+        
+        .vhs-distortion::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1;
+            animation: vhsScan 0.3s linear infinite;
+        }
+        
+        @keyframes vhsScan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+        
+        .vhs-glitch {
+            animation: vhsGlitch 0.5s ease-in-out;
+        }
+        
+        @keyframes vhsGlitch {
+            0%, 100% { 
+                transform: translate(0, 0);
+                filter: hue-rotate(0deg);
+            }
+            10% { 
+                transform: translate(-5px, 2px);
+                filter: hue-rotate(90deg);
+            }
+            20% { 
+                transform: translate(3px, -3px);
+                filter: hue-rotate(180deg);
+            }
+            30% { 
+                transform: translate(-2px, 1px);
+                filter: hue-rotate(270deg);
+            }
+            40% { 
+                transform: translate(4px, -2px);
+                filter: hue-rotate(360deg);
+            }
+            50% { 
+                transform: translate(-3px, 3px) skewX(2deg);
+                opacity: 0.8;
+            }
+            60% { 
+                transform: translate(2px, -1px) skewX(-2deg);
+                opacity: 0.9;
+            }
+            70% { 
+                transform: translate(-1px, 2px);
+                opacity: 1;
+            }
+        }
+        
+        .rgb-split {
+            animation: rgbSplit 0.3s ease-out;
+        }
+        
+        @keyframes rgbSplit {
+            0% {
+                text-shadow: 0 0 0 #f42525;
+            }
+            25% {
+                text-shadow: -3px 0 0 #ff0000, 3px 0 0 #00ff00, 0 0 0 #0000ff;
+            }
+            50% {
+                text-shadow: -5px 0 0 #ff0000, 5px 0 0 #00ff00, 0 3px 0 #0000ff;
+            }
+            75% {
+                text-shadow: -2px 0 0 #ff0000, 2px 0 0 #00ff00, 0 -2px 0 #0000ff;
+            }
+            100% {
+                text-shadow: 0 0 10px #f42525;
+            }
+        }
+        
+        .tracking-distortion {
+            animation: trackingDistortion 0.4s ease-out;
+        }
+        
+        @keyframes trackingDistortion {
+            0%, 100% { 
+                transform: translateX(0);
+                opacity: 1;
+            }
+            20% { 
+                transform: translateX(-10px) scaleY(1.1);
+                opacity: 0.8;
+            }
+            40% { 
+                transform: translateX(15px) scaleY(0.9);
+                opacity: 0.6;
+            }
+            60% { 
+                transform: translateX(-8px) scaleY(1.05);
+                opacity: 0.9;
+            }
+            80% { 
+                transform: translateX(5px) scaleY(0.95);
+                opacity: 0.95;
+            }
+        }
+        
+        /* Morse Code Animation */
+        .morse-blink {
+            animation: morseBlink 8s infinite;
+        }
+        
+        @keyframes morseBlink {
+            0%, 100% { opacity: 0.6; }
+            /* R: .-. */
+            5%, 7% { opacity: 1; } /* . */
+            10%, 15% { opacity: 1; } /* - */
+            18%, 20% { opacity: 1; } /* . */
+            /* U: ..- */
+            30%, 32% { opacity: 1; } /* . */
+            35%, 37% { opacity: 1; } /* . */
+            40%, 45% { opacity: 1; } /* - */
+            /* N: -. */
+            55%, 60% { opacity: 1; } /* - */
+            63%, 65% { opacity: 1; } /* . */
+        }
         .glow-red { text-shadow: 0 0 10px #f42525; }
         .border-ascii { border: 2px solid #f42525; box-shadow: 0 0 20px rgba(244, 37, 37, 0.3); }
         .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
         
-        /* Ajuste específico para tablets: Evitar que el teclado virtual rompa el diseño */
+        .portal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        .portal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .portal-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(244, 37, 37, 0.8) 0%,
+                rgba(244, 37, 37, 0.4) 30%,
+                rgba(139, 0, 0, 0.6) 60%,
+                rgba(0, 0, 0, 0.9) 100%
+            );
+            box-shadow: 
+                0 0 50px rgba(244, 37, 37, 0.8),
+                inset 0 0 100px rgba(0, 0, 0, 0.8);
+            animation: portalOpen 2s ease-out forwards;
+        }
+        
+        @keyframes portalOpen {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(3) rotate(360deg);
+                opacity: 1;
+            }
+        }
+        
+        .portal-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #f42525;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f42525;
+            animation: particleFloat 2s ease-out forwards;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        .portal-ripple {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(244, 37, 37, 0.8);
+            border-radius: 50%;
+            animation: ripple 1.5s ease-out infinite;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(8);
+                opacity: 0;
+            }
+        }
+        
+        .success-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeInText 1s ease-in 0.5s forwards;
+        }
+        
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        
         @media (max-height: 600px) {
             .layout-container { justify-content: flex-start; padding-top: 1rem; }
             .header-info { display: none; }
@@ -68,6 +350,18 @@
 <body class="bg-background-dark font-display text-white selection:bg-primary selection:text-white">
     <div class="crt-overlay"></div>
     <div class="perspective-grid"><div class="grid-lines"></div></div>
+
+    <div id="portal-overlay" class="portal-overlay">
+        <div class="portal-particles" id="particles"></div>
+        <div class="portal-ripple"></div>
+        <div class="portal-ripple" style="animation-delay: 0.3s;"></div>
+        <div class="portal-ripple" style="animation-delay: 0.6s;"></div>
+        <div class="portal-circle"></div>
+        <div class="success-text">
+            <h2 class="text-4xl md:text-6xl font-bold text-primary glow-red mb-4">PORTAL ACTIVADO</h2>
+            <p class="text-xl md:text-2xl text-white">Sincronizando dimensiones...</p>
+        </div>
+    </div>
 
     <div class="relative z-10 flex h-screen w-full flex-col p-4 md:p-10">
         <div class="layout-container flex h-full grow flex-col max-w-[900px] mx-auto w-full">
@@ -83,18 +377,18 @@
                     </div>
                 </div>
                 <div class="header-info flex items-center gap-3">
-                    <span class="size-2 rounded-full bg-primary animate-pulse"></span>
-                    <span class="text-primary text-[10px] font-bold tracking-widest">ACTIVE</span>
+                    <span class="size-2 rounded-full bg-primary animate-pulse light-flicker"></span>
+                    <span class="text-primary text-[10px] font-bold tracking-widest light-flicker">ACTIVE</span>
                 </div>
             </header>
 
             <main class="flex-1 flex flex-col items-center justify-center gap-6">
                 <div class="text-center space-y-1">
                     <p class="font-mono text-[10px] text-primary tracking-[0.4em] uppercase opacity-70">Security Protocol // Subject: Laia</p>
-                    <p class="font-mono text-[13px] text-gray-400 tracking-[0.1em] uppercase">Identifica al catalizador para sincronizar el portal</p>
+                    <p class="font-mono text-[13px] text-gray-400 tracking-[0.1em] uppercase" title="Run Boy Run - Woodkid">Identifica al catalizador para sincronizar el portal</p>
                 </div>
 
-                <div id="terminal-card" class="w-full bg-background-dark/95 border-ascii p-8 md:p-12 relative flex flex-col gap-8 flicker">
+                <div id="terminal-card" class="w-full bg-background-dark/95 border-ascii p-8 md:p-12 relative flex flex-col gap-8 flicker vhs-distortion">
                     <div class="absolute -top-3 left-6 bg-background-dark px-3 text-primary font-bold text-[11px] tracking-tighter">TERMINAL_ID: HAWKINS_011</div>
                     
                     <div class="flex flex-col gap-4 text-center">
@@ -104,7 +398,7 @@
                             <span class="text-primary/30 text-xs">]</span>
                         </div>
                         <h2 id="hint-title" class="text-primary font-terminal text-2xl tracking-[0.1em] uppercase underline decoration-primary/30 underline-offset-8">PISTA 1: EL LANZAMIENTO DEL DESTINO</h2>
-                        <h1 id="hint-text" class="text-primary font-terminal text-[26px] md:text-[32px] leading-tight glow-red tracking-wide uppercase max-w-2xl mx-auto min-h-[120px] flex items-center">
+                        <h1 id="hint-text" class="text-primary font-terminal text-[26px] md:text-[32px] leading-tight glow-red tracking-wide uppercase max-w-2xl mx-auto min-h-[120px] flex items-center typewriter">
                             En el sótano de Mike, si quieres vencer al Demogorgon con un "Fireball", este es el número más alto que puedes sacar en un dado D20 para fallar... pero el número exacto que necesitas para salvar a Will.
                         </h1>
                     </div>
@@ -139,13 +433,101 @@
             </main>
 
             <footer class="py-6 flex justify-between items-center border-t border-primary/20 opacity-60">
-                <div class="text-primary text-[10px] tracking-widest uppercase">© 1983 Hawkins National Laboratory</div>
-                <div class="text-primary text-[10px] font-mono">STATUS: ENCRYPTED_LINK</div>
+                <div class="text-primary text-[10px] tracking-widest uppercase morse-blink">© 1983 Hawkins National Laboratory</div>
+                <div class="text-primary text-[10px] font-mono flex items-center gap-2">
+                    <span class="opacity-40">♪</span>
+                    <span class="italic" title="The Clash - Should I Stay or Should I Go">STATUS: ENCRYPTED_LINK</span>
+                    <span class="opacity-40">♪</span>
+                </div>
             </footer>
         </div>
     </div>
 
     <script>
+        // Sonidos usando Web Audio API
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playErrorSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 200;
+            oscillator.type = 'sawtooth';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+        
+        function playSuccessSound() {
+            const oscillator1 = audioContext.createOscillator();
+            const oscillator2 = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator1.connect(gainNode);
+            oscillator2.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator1.frequency.value = 400;
+            oscillator2.frequency.value = 600;
+            oscillator1.type = 'sine';
+            oscillator2.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+            
+            oscillator1.start(audioContext.currentTime);
+            oscillator2.start(audioContext.currentTime);
+            oscillator1.stop(audioContext.currentTime + 1);
+            oscillator2.stop(audioContext.currentTime + 1);
+        }
+        
+        function playPortalSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            const filter = audioContext.createBiquadFilter();
+            
+            oscillator.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 50;
+            oscillator.type = 'sawtooth';
+            filter.type = 'lowpass';
+            filter.frequency.value = 2000;
+            
+            gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
+            
+            // Efecto de subida de frecuencia (portal abriéndose)
+            oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 2);
+            filter.frequency.exponentialRampToValueAtTime(5000, audioContext.currentTime + 2);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 3);
+        }
+        
+        // Efecto typewriter
+        function typeWriter(element, text, speed = 30) {
+            element.textContent = '';
+            let i = 0;
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            
+            type();
+        }
+        
         const hints = [
             {
                 title: "PISTA 1: EL LANZAMIENTO DEL DESTINO",
@@ -164,6 +546,46 @@
         let currentHintIndex = 0;
         const correctAnswers = ["11", "ONCE", "ELEVEN"];
 
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const distance = 300 + Math.random() * 200;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+                particle.style.animationDelay = `${Math.random() * 0.5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function activatePortal() {
+            const portalOverlay = document.getElementById('portal-overlay');
+            portalOverlay.classList.add('active');
+            createParticles();
+            playSuccessSound();
+            
+            // Sonido del portal después de un breve delay
+            setTimeout(() => {
+                playPortalSound();
+            }, 300);
+            
+            // Redirige después de que termine la animación completa
+            setTimeout(() => {
+                window.location.href = "index2.html";
+            }, 3500);
+        }
+
         function checkCode() {
             const inputField = document.getElementById('auth-input');
             const input = inputField.value.trim().toUpperCase();
@@ -174,10 +596,12 @@
             if (correctAnswers.includes(input)) {
                 hStatus.innerText = "ACCESS GRANTED. SYNCING PORTAL...";
                 hStatus.style.color = "#33ff33";
+                
                 setTimeout(() => {
-                    window.location.href = "index2.html";
-                }, 1000);
+                    activatePortal();
+                }, 500);
             } else {
+                playErrorSound();
                 terminalCard.classList.add('shake');
                 errorMsg.classList.remove('hidden');
                 
@@ -196,12 +620,25 @@
             const hTitle = document.getElementById('hint-title');
             const hText = document.getElementById('hint-text');
             const hStatus = document.getElementById('hint-status');
+            const terminalCard = document.getElementById('terminal-card');
 
             hStatus.innerText = "OVERRIDING SECURITY...";
             
+            // Aplicar efectos VHS
+            terminalCard.classList.add('vhs-glitch');
+            hText.classList.add('rgb-split');
+            hTitle.classList.add('tracking-distortion');
+            
+            setTimeout(() => {
+                terminalCard.classList.remove('vhs-glitch');
+                hText.classList.remove('rgb-split');
+                hTitle.classList.remove('tracking-distortion');
+            }, 500);
+            
             setTimeout(() => {
                 hTitle.innerText = hints[currentHintIndex].title;
-                hText.innerText = hints[currentHintIndex].text;
+                // Efecto typewriter en la pista
+                typeWriter(hText, hints[currentHintIndex].text, 20);
                 hStatus.innerText = "NEW HINT DECRYPTED";
             }, 600);
         }
@@ -214,6 +651,13 @@
 
         document.getElementById('auth-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') checkCode();
+        });
+        
+        // Efecto typewriter inicial
+        window.addEventListener('load', () => {
+            const hintText = document.getElementById('hint-text');
+            const initialText = hintText.textContent;
+            typeWriter(hintText, initialText, 20);
         });
     </script>
 </body>
