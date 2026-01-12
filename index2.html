@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>Hawkins Lab Terminal - Mensaje Decodificado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#33ff33",
+                        "background-dark": "#0a0505",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "monospace"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .crt-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none; z-index: 50;
+        }
+        .phosphor-glow { text-shadow: 0 0 8px rgba(51, 255, 51, 0.6); }
+        .cursor-blink {
+            display: inline-block; width: 8px; height: 1.2em;
+            background-color: #33ff33; margin-left: 2px;
+            vertical-align: middle; animation: blink 1s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+        .static-bg {
+            background-image: radial-gradient(circle, rgba(51, 255, 51, 0.05) 1px, transparent 1px);
+            background-size: 15px 15px;
+        }
+        body { background-color: #0a0505; color: #33ff33; }
+    </style>
+</head>
+<body class="font-display overflow-x-hidden select-none">
+    <div class="crt-overlay"></div>
+    
+    <div class="relative min-h-screen w-full flex flex-col static-bg">
+        <header class="flex items-center justify-between border-b border-primary/30 px-6 py-4 bg-background-dark/90 backdrop-blur-sm z-20">
+            <div class="flex items-center gap-3 phosphor-glow">
+                <svg class="size-6" fill="none" viewbox="0 0 48 48"><path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path></svg>
+                <div class="flex flex-col">
+                    <h2 class="text-xs font-bold tracking-[0.1em] uppercase">Hawkins National Laboratory</h2>
+                    <p class="text-[8px] text-primary/60 tracking-widest uppercase">Secret Protocol // Subject 10</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-[10px] font-bold border border-primary/40 px-2 py-1">CLEARANCE LEVEL: S-10</span>
+            </div>
+        </header>
+
+        <main class="flex-1 flex flex-col items-center justify-start p-4 md:p-8 z-10">
+            <div class="w-full max-w-4xl border border-primary/40 bg-background-dark/95 shadow-[0_0_40px_rgba(51,255,51,0.1)] rounded flex flex-col">
+                <div class="bg-primary/10 px-4 py-2 flex justify-between items-center border-b border-primary/40">
+                    <p class="text-[9px] font-bold tracking-widest opacity-70 uppercase">Decrypted_Message_1983.log</p>
+                    <div class="flex gap-1.5">
+                        <div class="size-2 rounded-full bg-primary/40"></div>
+                        <div class="size-2 rounded-full bg-primary/20"></div>
+                    </div>
+                </div>
+
+                <div class="p-6 md:p-10">
+                    <h1 class="text-xl md:text-2xl font-black tracking-tighter mb-6 phosphor-glow leading-tight border-b border-primary/20 pb-4">
+                        IDENTIFICACIÓN CONFIRMADA: <br class="md:hidden"> 
+                        <span class="text-white">LAIA MOLLET CABEZAS (LA ONCE)</span>
+                    </h1>
+                    
+                    <div class="space-y-6 text-sm md:text-base leading-relaxed">
+                        <p class="opacity-70 font-mono text-xs">
+                            INITIALIZING DECODED TELEMETRY...
+                        </p>
+
+                        <div class="border-l-2 border-primary/40 pl-5 space-y-4">
+                            <p>
+                                Has demostrado que tu conexión con <span class="font-bold">Hawkins</span> es total. Has identificado a <span class="bg-primary text-black px-1 font-bold">ONCE</span> y eso ha estabilizado la brecha.
+                            </p>
+                            
+                            <p class="text-primary/90">
+                                Pero cuidado: el portal no lleva al Mundo del Revés. Se ha desviado hacia <span class="font-bold phosphor-glow uppercase">Londium</span>. Un Londres lleno de secretos, vapor y sombras. 
+                            </p>
+
+                            <p class="font-bold italic">
+                                Misión de 90 minutos activada en Montcada i Reixac.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                            <div class="bg-primary/5 border border-primary/20 p-4 rounded">
+                                <h3 class="text-xs font-bold tracking-widest mb-3 opacity-60 uppercase underline">Tu Equipo:</h3>
+                                <ul class="space-y-1 text-xs md:text-sm">
+                                    <li>• <span class="font-bold">LAIA M.</span> (Capitana / Poderes Psíquicos)</li>
+                                    <li>• <span class="font-bold">JUDIT C.</span> (Mamá / Soporte Logístico)</li>
+                                    <li>• <span class="font-bold">LAIA B.</span> (Amiga / Exploradora)</li>
+                                    <li>• <span class="font-bold">ISAAC Y JUDIT</span> (Fuerzas de Choque)</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-primary/5 border border-primary/20 p-4 rounded flex flex-col justify-center">
+                                <h3 class="text-xs font-bold tracking-widest mb-2 opacity-60 uppercase underline">Día y Hora:</h3>
+                                <p class="text-xl md:text-2xl font-black phosphor-glow">06 / 02 / 2026</p>
+                                <p class="text-lg font-bold">18:00 H</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-4 border-t border-primary/20">
+                            <p class="text-sm">
+                                ¿Estás lista para cruzar? El tiempo es una dimensión que no puedes controlar. 
+                                <span class="block mt-2 font-bold text-white">
+                                    Ahora introduce el código, pero OJO no en castellano, sino que en inglés, en el Criptex para poder abrirlo y recoger tu pase.
+                                </span>
+                            </p>
+                        </div>
+
+                        <p class="text-center font-bold phosphor-glow pt-4 text-xs md:text-sm">
+                            NOS VEMOS EN EL OTRO LADO. CAMBIO Y CORTO. <span class="cursor-blink"></span>
+                        </p>
+                    </div>
+
+                    <div class="mt-10 flex justify-center">
+                        <button onclick="window.print()" class="bg-primary text-black px-8 py-3 text-xs font-black tracking-[0.3em] uppercase rounded hover:scale-105 transition-transform shadow-[0_0_20px_rgba(51,255,51,0.3)]">
+                            Imprimir Autorización
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="mt-8 flex flex-col items-center gap-2 opacity-40 pb-8">
+                <p class="text-[8px] font-mono tracking-widest">SISTEMA_ORIGEN: HNL_S011_V2 // REF: LONDIUM_EXPEDITION</p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>HAWKINS LAB - TERMINAL</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Teko:wght@400;600&family=Space+Mono&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f42525",
+                        "background-dark": "#181111",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "terminal": ["Teko", "sans-serif"],
+                        "mono": ["Space Mono", "monospace"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            background: radial-gradient(circle at center, #221010 0%, #000000 100%);
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+        .perspective-grid {
+            perspective: 500px;
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 30vh; z-index: 0;
+            overflow: hidden; opacity: 0.2;
+        }
+        .grid-lines {
+            width: 200%; height: 200%;
+            background-image: linear-gradient(to right, #f42525 1px, transparent 1px), linear-gradient(to bottom, #f42525 1px, transparent 1px);
+            background-size: 50px 50px; transform: rotateX(60deg) translateY(-50%) translateX(-25%);
+            transform-origin: center top;
+            mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+        }
+        .crt-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none; z-index: 50;
+        }
+        .flicker { animation: flicker 0.15s infinite; }
+        @keyframes flicker { 0% { opacity: 0.97; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
+        .glow-red { text-shadow: 0 0 10px #f42525; }
+        .border-ascii { border: 2px solid #f42525; box-shadow: 0 0 20px rgba(244, 37, 37, 0.3); }
+        .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+        
+        /* Ajuste específico para tablets: Evitar que el teclado virtual rompa el diseño */
+        @media (max-height: 600px) {
+            .layout-container { justify-content: flex-start; padding-top: 1rem; }
+            .header-info { display: none; }
+        }
+    </style>
+</head>
+<body class="bg-background-dark font-display text-white selection:bg-primary selection:text-white">
+    <div class="crt-overlay"></div>
+    <div class="perspective-grid"><div class="grid-lines"></div></div>
+
+    <div class="relative z-10 flex h-screen w-full flex-col p-4 md:p-10">
+        <div class="layout-container flex h-full grow flex-col max-w-[900px] mx-auto w-full">
+            
+            <header class="flex items-center justify-between border-b border-primary/40 px-4 py-4 bg-background-dark/80 backdrop-blur-sm">
+                <div class="flex items-center gap-4">
+                    <div class="text-primary flicker">
+                        <svg class="size-8" fill="none" viewBox="0 0 48 48"><path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-primary text-[12px] font-bold tracking-[0.2em] uppercase leading-none">Hawkins National Laboratory</h2>
+                        <span class="text-[9px] text-primary/60 tracking-widest uppercase">Division 4 // Restricted Access</span>
+                    </div>
+                </div>
+                <div class="header-info flex items-center gap-3">
+                    <span class="size-2 rounded-full bg-primary animate-pulse"></span>
+                    <span class="text-primary text-[10px] font-bold tracking-widest">ACTIVE</span>
+                </div>
+            </header>
+
+            <main class="flex-1 flex flex-col items-center justify-center gap-6">
+                <div class="text-center space-y-1">
+                    <p class="font-mono text-[10px] text-primary tracking-[0.4em] uppercase opacity-70">Security Protocol // Subject: Laia</p>
+                    <p class="font-mono text-[13px] text-gray-400 tracking-[0.1em] uppercase">Identifica al catalizador para sincronizar el portal</p>
+                </div>
+
+                <div id="terminal-card" class="w-full bg-background-dark/95 border-ascii p-8 md:p-12 relative flex flex-col gap-8 flicker">
+                    <div class="absolute -top-3 left-6 bg-background-dark px-3 text-primary font-bold text-[11px] tracking-tighter">TERMINAL_ID: HAWKINS_011</div>
+                    
+                    <div class="flex flex-col gap-4 text-center">
+                        <div class="flex justify-center items-center gap-2">
+                            <span class="text-primary/30 text-xs">[</span>
+                            <span id="hint-status" class="text-primary text-[10px] font-bold tracking-[0.2em]">MESSAGE DECRYPTED</span>
+                            <span class="text-primary/30 text-xs">]</span>
+                        </div>
+                        <h2 id="hint-title" class="text-primary font-terminal text-2xl tracking-[0.1em] uppercase underline decoration-primary/30 underline-offset-8">PISTA 1: EL LANZAMIENTO DEL DESTINO</h2>
+                        <h1 id="hint-text" class="text-primary font-terminal text-[26px] md:text-[32px] leading-tight glow-red tracking-wide uppercase max-w-2xl mx-auto min-h-[120px] flex items-center">
+                            En el sótano de Mike, si quieres vencer al Demogorgon con un "Fireball", este es el número más alto que puedes sacar en un dado D20 para fallar... pero el número exacto que necesitas para salvar a Will.
+                        </h1>
+                    </div>
+
+                    <div class="flex flex-col items-center gap-8">
+                        <div class="w-full max-w-[450px]">
+                            <label class="block w-full">
+                                <p class="text-primary/70 text-[11px] font-bold tracking-[0.2em] pb-3 uppercase text-center">&gt; Enter Authorization Code:</p>
+                                <div class="flex items-stretch border-2 border-primary/40 bg-black shadow-[inset_0_0_15px_rgba(244,37,37,0.2)] focus-within:border-primary transition-all">
+                                    <input id="auth-input" class="form-input flex-1 bg-transparent border-none text-primary text-3xl font-terminal tracking-[0.5em] focus:ring-0 h-16 px-6 placeholder:text-primary/10 uppercase" maxlength="10" placeholder="____" type="text" autocomplete="off" spellcheck="false"/>
+                                    <div class="flex items-center px-4 border-l border-primary/20">
+                                        <span class="material-symbols-outlined text-primary text-2xl">terminal</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex gap-6 w-full max-w-[450px]">
+                            <button onclick="checkCode()" class="flex-1 h-14 bg-primary text-white text-lg font-bold tracking-[0.2em] hover:brightness-110 active:scale-95 transition-all rounded-sm shadow-lg shadow-primary/20">
+                                DECODE
+                            </button>
+                            <button onclick="resetInput()" class="flex-1 h-14 border border-primary/40 text-primary text-lg font-bold tracking-[0.2em] hover:bg-primary/10 active:scale-95 transition-all rounded-sm">
+                                BYPASS
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="error-msg" class="hidden text-center text-primary font-mono text-[11px] font-bold animate-pulse tracking-widest">
+                        ! ACCESS DENIED - SECURITY VIOLATION DETECTED !
+                    </div>
+                </div>
+            </main>
+
+            <footer class="py-6 flex justify-between items-center border-t border-primary/20 opacity-60">
+                <div class="text-primary text-[10px] tracking-widest uppercase">© 1983 Hawkins National Laboratory</div>
+                <div class="text-primary text-[10px] font-mono">STATUS: ENCRYPTED_LINK</div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        const hints = [
+            {
+                title: "PISTA 1: EL LANZAMIENTO DEL DESTINO",
+                text: "En el sótano de Mike, si quieres vencer al Demogorgon con un 'Fireball', este es el número más alto que puedes sacar en un dado D20 para fallar... pero el número exacto que necesitas para salvar a Will."
+            },
+            {
+                title: "PISTA 2: EL ABECEDARIO DE PARED",
+                text: "Joyce Byers usó luces de Navidad para comunicarse. Si cuentas las luces desde la 'A' hasta la letra 'K', obtendrás la respuesta. No es un nombre, es un orden."
+            },
+            {
+                title: "PISTA 3: LA MARCA DEL LABORATORIO",
+                text: "Brenner no me dio un nombre, me dio una posición. Mi fuerza cierra portales y mi debilidad son los gofres."
+            }
+        ];
+
+        let currentHintIndex = 0;
+        const correctAnswers = ["11", "ONCE", "ELEVEN"];
+
+        function checkCode() {
+            const inputField = document.getElementById('auth-input');
+            const input = inputField.value.trim().toUpperCase();
+            const terminalCard = document.getElementById('terminal-card');
+            const errorMsg = document.getElementById('error-msg');
+            const hStatus = document.getElementById('hint-status');
+
+            if (correctAnswers.includes(input)) {
+                hStatus.innerText = "ACCESS GRANTED. SYNCING PORTAL...";
+                hStatus.style.color = "#33ff33";
+                setTimeout(() => {
+                    window.location.href = "index2.html";
+                }, 1000);
+            } else {
+                terminalCard.classList.add('shake');
+                errorMsg.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    terminalCard.classList.remove('shake');
+                    errorMsg.classList.add('hidden');
+                }, 1000);
+
+                currentHintIndex = (currentHintIndex + 1) % hints.length;
+                updateHintUI();
+                resetInput();
+            }
+        }
+
+        function updateHintUI() {
+            const hTitle = document.getElementById('hint-title');
+            const hText = document.getElementById('hint-text');
+            const hStatus = document.getElementById('hint-status');
+
+            hStatus.innerText = "OVERRIDING SECURITY...";
+            
+            setTimeout(() => {
+                hTitle.innerText = hints[currentHintIndex].title;
+                hText.innerText = hints[currentHintIndex].text;
+                hStatus.innerText = "NEW HINT DECRYPTED";
+            }, 600);
+        }
+
+        function resetInput() {
+            const inputField = document.getElementById('auth-input');
+            inputField.value = "";
+            inputField.focus();
+        }
+
+        document.getElementById('auth-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkCode();
+        });
+    </script>
+</body>
+</html>
