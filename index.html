@@ -28,7 +28,7 @@
     <style>
         body {
             background: radial-gradient(circle at center, #221010 0%, #000000 100%);
-            overflow: hidden;
+            min-height: 100vh;
             touch-action: manipulation;
         }
         .perspective-grid {
@@ -345,11 +345,95 @@
             .layout-container { justify-content: flex-start; padding-top: 1rem; }
             .header-info { display: none; }
         }
+        
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+            }
+        }
+        
+        /* Efectos adicionales de tensión */
+        .static-noise {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>');
+            pointer-events: none;
+            z-index: 45;
+            animation: staticMove 0.2s steps(10) infinite;
+        }
+        
+        @keyframes staticMove {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -5%); }
+            20% { transform: translate(-10%, 5%); }
+            30% { transform: translate(5%, -10%); }
+            40% { transform: translate(-5%, 15%); }
+            50% { transform: translate(-10%, 5%); }
+            60% { transform: translate(15%, 0); }
+            70% { transform: translate(0, 10%); }
+            80% { transform: translate(-15%, 0); }
+            90% { transform: translate(10%, 5%); }
+            100% { transform: translate(5%, 0); }
+        }
+        
+        .screen-flash {
+            animation: screenFlash 7s infinite;
+        }
+        
+        @keyframes screenFlash {
+            0%, 98%, 100% { opacity: 0; }
+            99% { opacity: 0.15; }
+        }
+        
+        .breathing-glow {
+            animation: breathingGlow 4s ease-in-out infinite;
+        }
+        
+        @keyframes breathingGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(244, 37, 37, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(244, 37, 37, 0.6), 0 0 60px rgba(244, 37, 37, 0.3);
+            }
+        }
+        
+        .upside-down-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: rgba(244, 37, 37, 0.4);
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            z-index: 60;
+            animation: fadeInOut 8s ease-in-out infinite;
+        }
+        
+        @keyframes fadeInOut {
+            0%, 90%, 100% { opacity: 0; }
+            45%, 55% { opacity: 1; }
+        }
+        
+        .emergency-light {
+            animation: emergencyLight 2s ease-in-out infinite;
+        }
+        
+        @keyframes emergencyLight {
+            0%, 50%, 100% { opacity: 0.6; }
+            25%, 75% { opacity: 1; }
+        }
     </style>
 </head>
 <body class="bg-background-dark font-display text-white selection:bg-primary selection:text-white">
     <div class="crt-overlay"></div>
+    <div class="static-noise"></div>
+    <div class="fixed inset-0 bg-primary/5 screen-flash pointer-events-none z-40"></div>
     <div class="perspective-grid"><div class="grid-lines"></div></div>
+    <div class="upside-down-hint emergency-light">◈ The Upside Down is watching ◈</div>
 
     <div id="portal-overlay" class="portal-overlay">
         <div class="portal-particles" id="particles"></div>
@@ -363,8 +447,8 @@
         </div>
     </div>
 
-    <div class="relative z-10 flex h-screen w-full flex-col p-4 md:p-10">
-        <div class="layout-container flex h-full grow flex-col max-w-[900px] mx-auto w-full">
+    <div class="relative z-10 flex min-h-screen w-full flex-col p-4 md:p-10">
+        <div class="layout-container flex grow flex-col max-w-[900px] mx-auto w-full pb-8">
             
             <header class="flex items-center justify-between border-b border-primary/40 px-4 py-4 bg-background-dark/80 backdrop-blur-sm">
                 <div class="flex items-center gap-4">
@@ -382,13 +466,33 @@
                 </div>
             </header>
 
-            <main class="flex-1 flex flex-col items-center justify-center gap-6">
+            <main class="flex-1 flex flex-col items-center justify-center gap-4 py-4">
+                <div class="w-full max-w-2xl bg-black/60 border border-primary/30 p-4 md:p-6 relative">
+                    <div class="absolute -top-3 left-4 bg-background-dark px-2 text-primary/70 text-[9px] font-mono tracking-wider">CLASSIFIED // EYES ONLY</div>
+                    <div class="space-y-2">
+                        <div class="flex items-start gap-2 md:gap-3">
+                            <span class="text-primary text-lg md:text-xl mt-0.5">⚠</span>
+                            <div class="flex-1">
+                                <h3 class="text-primary font-bold text-xs md:text-sm tracking-wider mb-1">PROTOCOLO DE SEGURIDAD ACTIVO</h3>
+                                <p class="text-gray-300 text-[10px] md:text-xs leading-relaxed font-mono">
+                                    Este terminal requiere verificación de identidad. Demuestra tu autorización respondiendo correctamente.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="border-t border-primary/20 pt-2">
+                            <p class="text-primary/60 text-[9px] md:text-[10px] font-mono tracking-wider uppercase text-center">
+                                ⟨ Intento fallido = Nueva pregunta ⟩
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="text-center space-y-1">
                     <p class="font-mono text-[10px] text-primary tracking-[0.4em] uppercase opacity-70">Security Protocol // Subject: Laia</p>
                     <p class="font-mono text-[13px] text-gray-400 tracking-[0.1em] uppercase" title="Run Boy Run - Woodkid">Identifica al catalizador para sincronizar el portal</p>
                 </div>
 
-                <div id="terminal-card" class="w-full bg-background-dark/95 border-ascii p-8 md:p-12 relative flex flex-col gap-8 flicker vhs-distortion">
+                <div id="terminal-card" class="w-full bg-background-dark/95 border-ascii breathing-glow p-6 md:p-12 relative flex flex-col gap-6 md:gap-8 flicker vhs-distortion">
                     <div class="absolute -top-3 left-6 bg-background-dark px-3 text-primary font-bold text-[11px] tracking-tighter">TERMINAL_ID: HAWKINS_011</div>
                     
                     <div class="flex flex-col gap-4 text-center">
@@ -398,8 +502,8 @@
                             <span class="text-primary/30 text-xs">]</span>
                         </div>
                         <h2 id="hint-title" class="text-primary font-terminal text-2xl tracking-[0.1em] uppercase underline decoration-primary/30 underline-offset-8">PISTA 1: EL LANZAMIENTO DEL DESTINO</h2>
-                        <h1 id="hint-text" class="text-primary font-terminal text-[26px] md:text-[32px] leading-tight glow-red tracking-wide uppercase max-w-2xl mx-auto min-h-[120px] flex items-center typewriter">
-                            En el sótano de Mike, si quieres vencer al Demogorgon con un "Fireball", este es el número más alto que puedes sacar en un dado D20 para fallar... pero el número exacto que necesitas para salvar a Will.
+                        <h1 id="hint-text" class="text-primary font-terminal text-[26px] md:text-[32px] leading-tight glow-red tracking-wide uppercase max-w-2xl mx-auto min-h-[120px] typewriter">
+                            En un centro comercial, la música no era normal. Mientras todos corrían, yo no podía mirar atrás.
                         </h1>
                     </div>
 
@@ -420,8 +524,8 @@
                             <button onclick="checkCode()" class="flex-1 h-14 bg-primary text-white text-lg font-bold tracking-[0.2em] hover:brightness-110 active:scale-95 transition-all rounded-sm shadow-lg shadow-primary/20">
                                 DECODE
                             </button>
-                            <button onclick="resetInput()" class="flex-1 h-14 border border-primary/40 text-primary text-lg font-bold tracking-[0.2em] hover:bg-primary/10 active:scale-95 transition-all rounded-sm">
-                                BYPASS
+                            <button onclick="nextHint()" class="flex-1 h-14 border border-primary/40 text-primary text-lg font-bold tracking-[0.2em] hover:bg-primary/10 active:scale-95 transition-all rounded-sm">
+                                OTRA PISTA
                             </button>
                         </div>
                     </div>
@@ -531,7 +635,7 @@
         const hints = [
             {
                 title: "PISTA 1: EL LANZAMIENTO DEL DESTINO",
-                text: "En el sótano de Mike, si quieres vencer al Demogorgon con un 'Fireball', este es el número más alto que puedes sacar en un dado D20 para fallar... pero el número exacto que necesitas para salvar a Will."
+                text: "En un centro comercial, la música no era normal. Mientras todos corrían, yo no podía mirar atrás."
             },
             {
                 title: "PISTA 2: EL ABECEDARIO DE PARED",
@@ -539,7 +643,7 @@
             },
             {
                 title: "PISTA 3: LA MARCA DEL LABORATORIO",
-                text: "Brenner no me dio un nombre, me dio una posición. Mi fuerza cierra portales y mi debilidad son los gofres."
+                text: "Brenner (Papá) no me dio un nombre, me dio una posición. Mi fuerza cierra portales y mi debilidad son los gofres."
             }
         ];
 
@@ -648,7 +752,54 @@
             inputField.value = "";
             inputField.focus();
         }
+        
+        function nextHint() {
+            currentHintIndex = (currentHintIndex + 1) % hints.length;
+            updateHintUI();
+            resetInput();
+        }
 
+        // Efecto de interferencia aleatoria
+        setInterval(() => {
+            if (Math.random() > 0.95) {
+                const terminalCard = document.getElementById('terminal-card');
+                terminalCard.classList.add('vhs-glitch');
+                setTimeout(() => {
+                    terminalCard.classList.remove('vhs-glitch');
+                }, 300);
+            }
+        }, 3000);
+        
+        // Sonido ambiente sutil
+        function playAmbientSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            const filter = audioContext.createBiquadFilter();
+            
+            oscillator.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 40 + Math.random() * 20;
+            oscillator.type = 'sine';
+            filter.type = 'lowpass';
+            filter.frequency.value = 200;
+            
+            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.03, audioContext.currentTime + 2);
+            gainNode.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + 4);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 4);
+        }
+        
+        // Reproduce sonido ambiente cada cierto tiempo
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                playAmbientSound();
+            }
+        }, 8000);
+        
         document.getElementById('auth-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') checkCode();
         });
