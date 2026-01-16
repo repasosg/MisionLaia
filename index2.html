@@ -181,7 +181,6 @@
             }
         }
         
-        /* Efectos adicionales de tensión */
         .screen-distortion {
             animation: screenDistortion 8s ease-in-out infinite;
         }
@@ -309,7 +308,6 @@
     <div class="dimensional-shift"></div>
     <div class="perspective-grid"><div class="grid-lines"></div></div>
     
-    <!-- Efectos ambientales -->
     <div class="upside-down-warning">DIMENSIONAL BREACH DETECTED</div>
     <div class="reading-minds">◈ Subject's thoughts monitored ◈</div>
     <div class="electricity-crack" style="left: 20%; animation-delay: 2s;"></div>
@@ -381,6 +379,12 @@
                                         Ahora introduce el código, en el Criptex, recuerda el código: ONCEL.
                                     </span>
                                 </p>
+                                <div class="mt-6 flex justify-center" id="cryptex-image" style="opacity: 0;">
+                                    <div class="border-2 border-primary/40 p-2 rounded bg-black/40 shadow-[0_0_30px_rgba(51,255,51,0.3)]">
+                                        <img src="/assets/images/foto.jpg" alt="Criptex con código ONCEL" class="max-w-full h-auto rounded" style="max-height: 400px; object-fit: contain;" />
+                                        <p class="text-center text-[10px] text-primary/70 mt-2 tracking-widest uppercase">Configuración del Criptex</p>
+                                    </div>
+                                </div>
                             </div>
 
                             <p class="text-center font-bold text-primary glow-green pt-6 text-sm md:text-base" id="final-text" style="opacity: 0;">
@@ -405,7 +409,6 @@
     </div>
 
     <script>
-        // Sonido de destrucción usando Web Audio API
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         
         function playDestructionSound() {
@@ -442,7 +445,6 @@
             }, 800);
         }
         
-        // Efectos de interferencia aleatoria
         setInterval(() => {
             if (Math.random() > 0.92) {
                 const main = document.querySelector('main');
@@ -453,7 +455,6 @@
             }
         }, 5000);
         
-        // Sonido ambiente de tensión
         function playAmbientTension() {
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
@@ -476,14 +477,12 @@
             oscillator.stop(audioContext.currentTime + 6);
         }
         
-        // Reproduce sonidos de tensión periódicamente
         setInterval(() => {
             if (Math.random() > 0.6) {
                 playAmbientTension();
             }
         }, 12000);
         
-        // Efecto typewriter mejorado para texto continuo
         function typeWriter(element, text, speed = 20, callback) {
             element.innerHTML = '';
             element.style.display = 'block';
@@ -507,18 +506,17 @@
             element.style.opacity = '1';
         }
 
-        // Secuencia de animaciones al cargar
         window.addEventListener('load', () => {
             const titleEl = document.getElementById('title-text');
             const mainText = document.getElementById('main-text');
             const infoGrid = document.getElementById('info-grid');
             const finalSection = document.getElementById('final-section');
+            const cryptexImage = document.getElementById('cryptex-image');
             const finalText = document.getElementById('final-text');
             const printButton = document.getElementById('print-button');
 
             const titleOriginal = titleEl.textContent;
             
-            // Texto completo con formato
             const mainTextContent = `INITIALIZING DECODED TELEMETRY...
 
 Has demostrado que tu conexión con Hawkins es total. Has identificado a ONCE y eso ha estabilizado la brecha.
@@ -536,9 +534,12 @@ Misión de 90 minutos activada en Montcada i Reixac.`;
                                 setTimeout(() => {
                                     fadeIn(finalSection, 1500);
                                     setTimeout(() => {
-                                        fadeIn(finalText, 1500);
+                                        fadeIn(cryptexImage, 1500);
                                         setTimeout(() => {
-                                            fadeIn(printButton, 1500);
+                                            fadeIn(finalText, 1500);
+                                            setTimeout(() => {
+                                                fadeIn(printButton, 1500);
+                                            }, 500);
                                         }, 500);
                                     }, 500);
                                 }, 500);
@@ -551,4 +552,3 @@ Misión de 90 minutos activada en Montcada i Reixac.`;
     </script>
 </body>
 </html>
-
